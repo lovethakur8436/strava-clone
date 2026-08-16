@@ -6,16 +6,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.fitness.profile.UserStatsRepository;
 import java.util.UUID;
 
 @Service
 public class ActivityService {
 
     private final ActivityRepository activityRepository;
+    private final UserStatsRepository userStatsRepository;
 
-    public ActivityService(ActivityRepository activityRepository) {
+    public ActivityService(ActivityRepository activityRepository, UserStatsRepository userStatsRepository) {
         this.activityRepository = activityRepository;
+        this.userStatsRepository = userStatsRepository;
     }
 
     @Transactional
@@ -32,6 +34,11 @@ public class ActivityService {
                 .build();
 
         Activity savedActivity = activityRepository.save(activity);
+
+        userStatsRepository.incrementStatsAtomically(
+                userId,
+                request.distanceMeters(),
+                request.durationSeconds());
 
         return mapToResponse(savedActivity);
     }

@@ -1,24 +1,31 @@
 package com.fitness.profile;
 
+import com.fitness.profile.dto.UserProfileResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/profiles")
 public class ProfileController {
 
-    @GetMapping("/me")
-    public ResponseEntity<String> getMyProfile() {
-        // 1. Ask Spring Security: "Who is making this request?"
-        // This extracts the User ID that our JwtAuthenticationFilter put into
-        // ThreadLocal memory.
-        String userId = SecurityContextHolder.getContext().getAuthentication().getName();
+    private final ProfileService profileService;
 
-        // 2. Return a simple dummy response for now.
-        // In Phase 2, we will use this userId to query the database.
-        return ResponseEntity.ok("Successfully reached protected endpoint! Your User ID is: " + userId);
+    public ProfileController(ProfileService profileService) {
+        this.profileService = profileService;
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserProfileResponse> getMyProfile() {
+        // Extract the secure ID from the JWT
+        String userIdStr = SecurityContextHolder.getContext().getAuthentication().getName();
+        UUID userId = UUID.fromString(userIdStr);
+
+        UserProfileResponse response = profileService.getUserProfile(userId);
+        return ResponseEntity.ok(response);
     }
 }
