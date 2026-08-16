@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fitness_test_db
+    username: postgres
+    # password: YOUR_POSTGRES_PASSWORD
+  flyway:
+    enabled: true
+    clean-disabled: false # Allows Flyway to clean the test DB if needed

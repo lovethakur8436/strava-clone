@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: fitness-api
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/fitness_db
+    username: postgres
+    # password: YOUR_POSTGRES_PASSWORD
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate # Strictly prevent Hibernate from altering tables
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+jwt:
+  # This must be a Base64 encoded string of at least 256 bits (32 bytes).
+  # You can generate one online or use this placeholder for local dev:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  expiration-ms: 86400000 # 1 day in milliseconds
