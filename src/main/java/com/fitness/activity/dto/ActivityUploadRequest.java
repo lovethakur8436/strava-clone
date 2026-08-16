@@ -1,9 +1,12 @@
 package com.fitness.activity.dto;
 
+import com.fitness.activity.RoutePoint;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record ActivityUploadRequest(
         @NotBlank(message = "Title cannot be empty") String title,
@@ -16,6 +19,6 @@ public record ActivityUploadRequest(
 
         @Min(value = 1, message = "Duration must be at least 1 second") Integer durationSeconds,
 
-        // We accept the massive GPS array as raw JSON text from the frontend
-        String routeData) {
+        // We now accept a beautifully typed JSON array!
+        @Valid List<RoutePoint> routeData) {
 }

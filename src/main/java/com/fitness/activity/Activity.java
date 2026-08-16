@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-
+import com.fitness.activity.RoutePoint;
+import java.util.List;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -43,7 +44,7 @@ public class Activity {
     // document
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "route_data", columnDefinition = "jsonb")
-    private String routeData;
+    private List<RoutePoint> routeData;
 
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;

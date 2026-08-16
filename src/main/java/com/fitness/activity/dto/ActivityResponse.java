@@ -1,6 +1,8 @@
 package com.fitness.activity.dto;
 
+import com.fitness.activity.RoutePoint;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public record ActivityResponse(
@@ -10,5 +12,6 @@ public record ActivityResponse(
         LocalDateTime startTime,
         Double distanceMeters,
         Integer durationSeconds,
-        String routeData) {
+        List<RoutePoint> routeData // Updated here too
+) {
 }
