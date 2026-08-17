@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import com.fitness.activity.RoutePoint;
+import com.fitness.activity.dto.RoutePoint;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.util.UUID;

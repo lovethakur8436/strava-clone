@@ -7,6 +7,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.fitness.profile.UserStatsRepository;
+import com.fitness.social.LeaderboardService;
+
 import java.util.UUID;
 
 @Service
@@ -14,10 +16,13 @@ public class ActivityService {
 
     private final ActivityRepository activityRepository;
     private final UserStatsRepository userStatsRepository;
+    private final LeaderboardService leaderboardService;
 
-    public ActivityService(ActivityRepository activityRepository, UserStatsRepository userStatsRepository) {
+    public ActivityService(ActivityRepository activityRepository, UserStatsRepository userStatsRepository,
+            LeaderboardService leaderboardService) {
         this.activityRepository = activityRepository;
         this.userStatsRepository = userStatsRepository;
+        this.leaderboardService = leaderboardService;
     }
 
     @Transactional
@@ -39,6 +44,8 @@ public class ActivityService {
                 userId,
                 request.distanceMeters(),
                 request.durationSeconds());
+
+        leaderboardService.incrementUserDistance(userId, request.distanceMeters());
 
         return mapToResponse(savedActivity);
     }
