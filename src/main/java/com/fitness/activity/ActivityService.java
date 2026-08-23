@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.fitness.profile.UserStatsRepository;
 import com.fitness.social.LeaderboardService;
+import org.springframework.cache.annotation.CacheEvict;
 
 import java.util.UUID;
 
@@ -26,6 +27,7 @@ public class ActivityService {
     }
 
     @Transactional
+    @CacheEvict(value = "userProfile", key = "#userId")
     public ActivityResponse saveActivity(UUID userId, ActivityUploadRequest request) {
 
         Activity activity = Activity.builder()
