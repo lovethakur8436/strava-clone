@@ -4,6 +4,9 @@ import com.fitness.identity.User;
 import com.fitness.identity.UserRepository;
 import com.fitness.profile.dto.UserProfileResponse;
 import com.fitness.social.FollowRepository;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,6 +32,7 @@ public class ProfileService {
                 this.followRepository = followRepository;
         }
 
+        @Transactional(readOnly = true)
         @Cacheable(value = "userProfile", key = "#userId")
         public UserProfileResponse getUserProfile(UUID userId) {
                 // 1. Fetch Identity
