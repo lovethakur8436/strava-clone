@@ -10,6 +10,9 @@ import com.fitness.profile.UserStatsRepository;
 import com.fitness.social.LeaderboardService;
 import org.springframework.cache.annotation.CacheEvict;
 
+import com.fitness.messaging.ActivityCreatedEvent;
+import com.fitness.messaging.ActivityEventPublisher;
+
 import java.util.UUID;
 
 @Service
@@ -18,12 +21,14 @@ public class ActivityService {
     private final ActivityRepository activityRepository;
     private final UserStatsRepository userStatsRepository;
     private final LeaderboardService leaderboardService;
+    private final ActivityEventPublisher eventPublisher;
 
     public ActivityService(ActivityRepository activityRepository, UserStatsRepository userStatsRepository,
-            LeaderboardService leaderboardService) {
+            LeaderboardService leaderboardService, ActivityEventPublisher eventPublisher) {
         this.activityRepository = activityRepository;
         this.userStatsRepository = userStatsRepository;
         this.leaderboardService = leaderboardService;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional
@@ -48,6 +53,13 @@ public class ActivityService {
                 request.durationSeconds());
 
         leaderboardService.incrementUserDistance(userId, request.distanceMeters());
+
+        ActivityCreatedEvent event = new ActivityCreatedEvent(
+                savedActivity.getId(),
+                userId,
+                request.distanceMeters());
+
+        eventPublisher.publishActivityCreated(event);
 
         return mapToResponse(savedActivity);
     }

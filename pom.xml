@@ -46,6 +46,12 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
+        <!-- RabbitMQ for Event-Driven Architecture -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
         <!-- Security & JWT -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

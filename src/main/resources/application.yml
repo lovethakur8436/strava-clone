@@ -2,6 +2,12 @@ spring:
   application:
     name: fitness-api
   
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
   # datasource:
   #   url: jdbc:postgresql://localhost:5432/fitness_db
   #   username: postgres
@@ -37,3 +43,8 @@ database:
     jdbc-url: jdbc:postgresql://localhost:5432/fitness_db # Points to replica IP in Prod
     username: postgres
     driver-class-name: org.postgresql.Driver
+
+messaging:
+  exchange: activity.exchange
+  queue: notification.queue
+  routing-key: activity.created
