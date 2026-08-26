@@ -83,6 +83,8 @@ public class SocialService {
                 activity.getStartTime(),
                 activity.getDistanceMeters(),
                 activity.getDurationSeconds(),
-                activity.getRouteData());
+                activity.getRouteData(),
+                activity.getPhotoUrls(),
+                activity.getMapImageUrl());
     }
 }

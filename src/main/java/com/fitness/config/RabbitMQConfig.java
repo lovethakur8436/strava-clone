@@ -19,6 +19,9 @@ public class RabbitMQConfig {
     @Value("${messaging.queue}")
     private String queueName;
 
+    @Value("${messaging.map-queue}")
+    private String mapQueueName;
+
     @Value("${messaging.routing-key}")
     private String routingKey;
 
@@ -39,6 +42,16 @@ public class RabbitMQConfig {
     @Bean
     public Binding binding(Queue notificationQueue, TopicExchange activityExchange) {
         return BindingBuilder.bind(notificationQueue).to(activityExchange).with(routingKey);
+    }
+
+    @Bean
+    public Queue mapQueue() {
+        return new Queue(mapQueueName, true);
+    }
+
+    @Bean
+    public Binding mapBinding(Queue mapQueue, TopicExchange activityExchange) {
+        return BindingBuilder.bind(mapQueue).to(activityExchange).with(routingKey);
     }
 
     // 4. Force RabbitMQ to use human-readable JSON instead of binary bytecode

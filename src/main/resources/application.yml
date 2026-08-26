@@ -47,4 +47,18 @@ database:
 messaging:
   exchange: activity.exchange
   queue: notification.queue
+  map-queue: map.queue
   routing-key: activity.created
+
+
+# Local S3 Storage Configuration
+storage:
+  endpoint: http://localhost:9000
+  access-key: admin
+  secret-key: password
+  bucket-name: fittrack-images
+
+
+google:
+  maps:
+    api-key: ${GOOGLE_MAPS_API_KEY}

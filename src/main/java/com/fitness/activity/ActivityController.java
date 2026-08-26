@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.MediaType;
 
 import java.util.UUID;
 
@@ -33,6 +35,15 @@ public class ActivityController {
         ActivityResponse response = activityService.saveActivity(userId, request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PostMapping(value = "/{id}/photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ActivityResponse> uploadPhoto(
+            @PathVariable UUID id,
+            @RequestParam("file") MultipartFile file) {
+
+        ActivityResponse response = activityService.uploadActivityPhoto(id, file);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping

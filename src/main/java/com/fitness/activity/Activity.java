@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import com.fitness.activity.dto.RoutePoint;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -45,6 +47,36 @@ public class Activity {
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "route_data", columnDefinition = "jsonb")
     private List<RoutePoint> routeData;
+
+    // New field to store photo URLs from MinIO
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "photo_urls", columnDefinition = "jsonb")
+    private List<String> photoUrls = new ArrayList<>();
+
+    // New field to store map image URL from Mapbox
+    @Column(name = "map_image_url")
+    private String mapImageUrl;
+
+    public String getMapImageUrl() {
+        return mapImageUrl;
+    }
+
+    public void setMapImageUrl(String mapImageUrl) {
+        this.mapImageUrl = mapImageUrl;
+    } // public void addPhotoUrl(String url) {
+    // if (this.photoUrls == null) {
+    // this.photoUrls = new ArrayList<>();
+    // }
+    // this.photoUrls.add(url);
+    // }
+
+    public List<String> getPhotoUrls() {
+        return photoUrls;
+    }
+
+    public void setPhotoUrls(List<String> photoUrls) {
+        this.photoUrls = photoUrls;
+    }
 
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;

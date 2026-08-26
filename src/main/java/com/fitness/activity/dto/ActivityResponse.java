@@ -12,6 +12,7 @@ public record ActivityResponse(
                 LocalDateTime startTime,
                 Double distanceMeters,
                 Integer durationSeconds,
-                List<RoutePoint> routeData // Updated here too
-) {
+                List<RoutePoint> routeData,
+                List<String> photoUrls,
+                String mapImageUrl) {
 }
