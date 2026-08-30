@@ -1,6 +1,7 @@
 package com.fitness.activity;
 
 import com.fitness.activity.dto.ActivityResponse;
+import com.fitness.activity.dto.ActivityUpdateRequest;
 import com.fitness.activity.dto.ActivityUploadRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -102,6 +103,28 @@ public class ActivityService {
 
                 // Convert the Page of Entities into a Page of DTOs
                 return activityPage.map(this::mapToResponse);
+        }
+
+        @Transactional
+        public ActivityResponse updateActivity(UUID id, ActivityUpdateRequest request) {
+                Activity activity = activityRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("Activity not found"));
+
+                if (request.title() != null && !request.title().isBlank()) {
+                        activity.setTitle(request.title());
+                }
+                if (request.activityType() != null && !request.activityType().isBlank()) {
+                        activity.setActivityType(request.activityType());
+                }
+
+                Activity savedActivity = activityRepository.save(activity);
+                return mapToResponse(savedActivity);
+        }
+
+        @Transactional
+        public void deleteActivity(UUID id) {
+                // TODO for SDE-3: Publish an event to RabbitMQ to delete S3 images
+                activityRepository.deleteById(id);
         }
 
         // Helper method to enforce the DTO firewall

@@ -1,6 +1,7 @@
 package com.fitness.activity;
 
 import com.fitness.activity.dto.ActivityResponse;
+import com.fitness.activity.dto.ActivityUpdateRequest;
 import com.fitness.activity.dto.ActivityUploadRequest;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,19 @@ public class ActivityController {
 
     public ActivityController(ActivityService activityService) {
         this.activityService = activityService;
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ActivityResponse> updateActivity(
+            @PathVariable UUID id,
+            @RequestBody ActivityUpdateRequest request) {
+        return ResponseEntity.ok(activityService.updateActivity(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteActivity(@PathVariable UUID id) {
+        activityService.deleteActivity(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping
